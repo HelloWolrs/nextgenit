@@ -938,6 +938,142 @@
     .test-grid { grid-template-columns: 1fr; }
   }
 
+  /* ============ INTRO TOAST (ACP Core preview, over the orbit) ============ */
+  .intro-toast {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(8px);
+    z-index: 5;
+    width: 240px;
+    max-width: calc(100% - 28px);
+    background: rgba(8, 18, 32, 0.94);
+    color: #dbeaf3;
+    border: 1px solid rgba(240, 138, 58, 0.35);
+    border-radius: 12px;
+    box-shadow: 0 14px 36px -10px rgba(0,0,0,0.6), 0 0 0 4px rgba(240, 138, 58, 0.08);
+    font-family: var(--sans);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    overflow: hidden;
+    backdrop-filter: blur(6px);
+  }
+  .intro-toast.visible { opacity: 1; transform: translate(-50%, -50%) translateY(0); pointer-events: auto; }
+  .intro-toast-head {
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 10px;
+    cursor: pointer;
+  }
+  .intro-toast-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #f08a3a;
+    box-shadow: 0 0 0 3px rgba(240,138,58,0.22);
+    animation: blip 2.4s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .intro-toast-kind {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #f08a3a;
+    flex-shrink: 0;
+  }
+  .intro-toast-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #f08a3a;
+    flex-grow: 1;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-family: var(--mono);
+  }
+  .intro-toast-chev {
+    width: 18px; height: 18px;
+    display: flex; align-items: center; justify-content: center;
+    color: #93a8bd;
+    transition: transform 0.25s ease, color 0.18s ease;
+    flex-shrink: 0;
+  }
+  .intro-toast-chev:hover { color: #f4f8fb; }
+  .intro-toast.expanded .intro-toast-chev { transform: rotate(180deg); }
+  .intro-toast-close {
+    width: 18px; height: 18px;
+    display: flex; align-items: center; justify-content: center;
+    border: none;
+    background: rgba(255,255,255,0.08);
+    color: #c4d2e0;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 11px; line-height: 1;
+    flex-shrink: 0;
+  }
+  .intro-toast-close:hover { background: rgba(255,255,255,0.16); color: #f4f8fb; }
+  .intro-toast-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .intro-toast.expanded .intro-toast-body { max-height: 260px; }
+  .intro-toast-body-inner {
+    padding: 0 10px 10px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 9px;
+  }
+  .intro-toast-desc {
+    font-size: 11px;
+    line-height: 1.5;
+    color: #c4d2e0;
+    margin: 0 0 10px;
+  }
+  .intro-toast-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px 12px;
+  }
+  .intro-toast-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .intro-toast-metric-label {
+    font-family: var(--mono);
+    font-size: 8.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6f8197;
+  }
+  .intro-toast-metric-value {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    color: #f4f8fb;
+    font-variant-numeric: tabular-nums;
+  }
+  .intro-toast-metric-value.health {
+    display: inline-flex; align-items: center; gap: 5px;
+    color: #3fc99d;
+  }
+  .intro-toast-metric-value.health::before {
+    content: ""; width: 5px; height: 5px; border-radius: 50%;
+    background: #3fc99d;
+    box-shadow: 0 0 0 2px rgba(63,201,157,0.22);
+    animation: blip 2.2s ease-in-out infinite;
+  }
+  .intro-toast-roster {
+    margin-top: 8px;
+    padding: 5px 8px;
+    background: rgba(240,138,58,0.08);
+    border: 1px solid rgba(240,138,58,0.22);
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    color: #ffd699;
+    text-align: center;
+  }
+
   /* ============ BACK-TO-TOP BUTTON ============ */
   .back-to-top {
     position: fixed;
@@ -2064,7 +2200,7 @@
         </g>
 
         <!-- ============ TOPOLOGY LABELS (positioned per-frame outside orbit groups) ============ -->
-        <g id="topo-labels" pointer-events="none" font-family="IBM Plex Mono, monospace">
+        <g id="topo-labels" font-family="IBM Plex Mono, monospace">
           <text class="agent-label" data-i="0" font-size="16" font-weight="500" fill="#f4f8fb" letter-spacing="0.6" text-anchor="middle" dominant-baseline="central">ACP·Sentinel</text>
           <text class="agent-label" data-i="1" font-size="16" font-weight="500" fill="#f4f8fb" letter-spacing="0.6" text-anchor="middle" dominant-baseline="central">ACP·Triage</text>
           <text class="agent-label" data-i="2" font-size="16" font-weight="500" fill="#f4f8fb" letter-spacing="0.6" text-anchor="middle" dominant-baseline="central">ACP·Patch</text>
@@ -2083,6 +2219,43 @@
           <text class="customer-label" data-i="9" font-size="11" fill="#c4d2e0" letter-spacing="0.6" text-anchor="middle" dominant-baseline="central">IAM</text>
         </g>
       </svg>
+
+      <div class="intro-toast" id="intro-toast" role="region" aria-label="ACP Core introduction" aria-hidden="true">
+        <div class="intro-toast-head" id="intro-toast-head">
+          <span class="intro-toast-dot"></span>
+          <span class="intro-toast-title">ACP CORE</span>
+          <span class="intro-toast-chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6"></path>
+            </svg>
+          </span>
+          <button type="button" class="intro-toast-close" id="intro-toast-close" aria-label="Close">×</button>
+        </div>
+        <div class="intro-toast-body">
+          <div class="intro-toast-body-inner">
+            <p class="intro-toast-desc">Human-governed autonomous operations. ACP is an operational coordination layer for connected systems — orchestrate workflows, route approvals through humans, run remediation, and keep a tamper-evident audit trail across your stack.</p>
+            <div class="intro-toast-metrics">
+              <div class="intro-toast-metric">
+                <span class="intro-toast-metric-label">Tokens/h</span>
+                <span class="intro-toast-metric-value" id="intro-tokens">157,850</span>
+              </div>
+              <div class="intro-toast-metric">
+                <span class="intro-toast-metric-label">Latency</span>
+                <span class="intro-toast-metric-value" id="intro-latency">38ms</span>
+              </div>
+              <div class="intro-toast-metric">
+                <span class="intro-toast-metric-label">Monitor</span>
+                <span class="intro-toast-metric-value">Aggregate</span>
+              </div>
+              <div class="intro-toast-metric">
+                <span class="intro-toast-metric-label">Health</span>
+                <span class="intro-toast-metric-value health">Healthy</span>
+              </div>
+            </div>
+            <div class="intro-toast-roster">5 agents · 10 client systems</div>
+          </div>
+        </div>
+      </div>
 
       <div class="node-popup" id="node-popup" role="dialog" aria-hidden="true">
         <button type="button" class="np-close" id="np-close" aria-label="Close">×</button>
@@ -2626,7 +2799,7 @@
         <p>For inquiries, partnerships, or strategic dialogue. Real humans reply, usually within a day.</p>
         <ul>
           <li>EMAIL
-<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="563f3830391638332e227b3133387b3f227835393b">[email&#160;protected]</a></li>
+<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a9c0c7cfc6e9c7ccd1dd84ceccc784c0dd87cac6c4">[email&#160;protected]</a></li>
           <li><span>Calls</span>by appointment, all timezones</li>
           <li><span>Pilots</span>ACP allowlist via the marketplace</li>
         </ul>
@@ -3318,22 +3491,100 @@
     }
 
     agentGroups.forEach(function (g) {
+      // Enlarge clickable hit area with an invisible bigger circle
+      var dot = g.querySelector('circle:last-of-type');
+      if (dot) {
+        var hit = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        hit.setAttribute('cx', dot.getAttribute('cx'));
+        hit.setAttribute('cy', dot.getAttribute('cy'));
+        hit.setAttribute('r', '38');
+        hit.setAttribute('fill', 'transparent');
+        hit.style.cursor = 'pointer';
+        g.insertBefore(hit, g.firstChild.nextSibling);
+      }
+      g.style.cursor = 'pointer';
       g.addEventListener('click', function (e) {
         e.stopPropagation();
         showFor(g, g.getAttribute('data-name'));
       });
     });
     customerGroups.forEach(function (g) {
+      var dot = g.querySelector('circle');
+      if (dot) {
+        var hit = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        hit.setAttribute('cx', dot.getAttribute('cx'));
+        hit.setAttribute('cy', dot.getAttribute('cy'));
+        hit.setAttribute('r', '26');
+        hit.setAttribute('fill', 'transparent');
+        hit.style.cursor = 'pointer';
+        g.insertBefore(hit, g.firstChild);
+      }
+      g.style.cursor = 'pointer';
       g.addEventListener('click', function (e) {
         e.stopPropagation();
         showFor(g, g.getAttribute('data-name'));
       });
     });
+
+    // ── Make labels clickable too ──
+    var AGENT_NAME_BY_IDX = ['SENTINEL','TRIAGE','PATCH','SIM','COMPLIANCE'];
+    var CUSTOMER_NAME_BY_IDX = ['MONITORING','ENDPOINTS','TICKETS','ALERTS','INVENTORY','BACKUPS','SIEM','FIREWALL','AUDIT','IAM'];
+    var agentLabelEls    = document.querySelectorAll('.agent-label');
+    var customerLabelEls = document.querySelectorAll('.customer-label');
+    agentLabelEls.forEach(function (lbl) {
+      lbl.style.pointerEvents = 'auto';
+      lbl.style.cursor = 'pointer';
+      lbl.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var idx = parseInt(lbl.getAttribute('data-i'), 10);
+        var name = AGENT_NAME_BY_IDX[idx];
+        var g = document.querySelector('#inner-orbit .agent[data-name="' + name + '"]');
+        if (g) showFor(g, name);
+      });
+    });
+    customerLabelEls.forEach(function (lbl) {
+      lbl.style.pointerEvents = 'auto';
+      lbl.style.cursor = 'pointer';
+      lbl.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var idx = parseInt(lbl.getAttribute('data-i'), 10);
+        var name = CUSTOMER_NAME_BY_IDX[idx];
+        var g = document.querySelector('#outer-orbit .customer[data-name="' + name + '"]');
+        if (g) showFor(g, name);
+      });
+    });
+
+    // ── Enlarge core hit area + make ACP text clickable ──
     if (coreEl) {
       coreEl.style.cursor = 'pointer';
       coreEl.addEventListener('click', function (e) {
         e.stopPropagation();
         showFor(coreEl, 'CORE');
+      });
+      // Add an invisible larger hit circle around the core
+      var coreHit = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      coreHit.setAttribute('cx', '360');
+      coreHit.setAttribute('cy', '360');
+      coreHit.setAttribute('r', '110');
+      coreHit.setAttribute('fill', 'transparent');
+      coreHit.style.cursor = 'pointer';
+      coreEl.parentNode.appendChild(coreHit);
+      coreHit.addEventListener('click', function (e) {
+        e.stopPropagation();
+        showFor(coreEl, 'CORE');
+      });
+      // ACP text labels
+      var coreTexts = eyeSvg.querySelectorAll('text');
+      coreTexts.forEach(function (t) {
+        var txt = (t.textContent || '').trim();
+        if (txt === 'ACP' || txt === 'CORE') {
+          t.style.cursor = 'pointer';
+          t.style.pointerEvents = 'auto';
+          t.addEventListener('click', function (e) {
+            e.stopPropagation();
+            showFor(coreEl, 'CORE');
+          });
+        }
       });
     }
 
@@ -3360,6 +3611,68 @@
     }
     window.addEventListener('scroll', update, { passive: true });
     update();
+  })();
+
+  // ============ Intro toast: ACP Core preview ============
+  (function () {
+    var toast    = document.getElementById('intro-toast');
+    var head     = document.getElementById('intro-toast-head');
+    var closeBtn = document.getElementById('intro-toast-close');
+    var tokensEl  = document.getElementById('intro-tokens');
+    var latencyEl = document.getElementById('intro-latency');
+    if (!toast || !head || !closeBtn) return;
+
+    var autoCloseTimer = null;
+    var jitterTimer = null;
+    var dismissed = false;
+
+    function jitter(base, pct) {
+      return Math.max(1, Math.round(base * (1 + (Math.random() * 2 - 1) * pct)));
+    }
+    function startJitter() {
+      stopJitter();
+      jitterTimer = setInterval(function () {
+        if (tokensEl)  tokensEl.textContent  = jitter(157850, 0.02).toLocaleString('en-US');
+        if (latencyEl) latencyEl.textContent = jitter(38, 0.18) + 'ms';
+      }, 1500);
+    }
+    function stopJitter() {
+      if (jitterTimer) { clearInterval(jitterTimer); jitterTimer = null; }
+    }
+
+    function show() {
+      if (dismissed) return;
+      toast.classList.add('visible');
+      toast.setAttribute('aria-hidden', 'false');
+      startJitter();
+      // Auto-close after 10 seconds
+      autoCloseTimer = setTimeout(hide, 10000);
+    }
+    function hide() {
+      toast.classList.remove('visible');
+      toast.setAttribute('aria-hidden', 'true');
+      stopJitter();
+      if (autoCloseTimer) { clearTimeout(autoCloseTimer); autoCloseTimer = null; }
+      dismissed = true;
+    }
+    function toggleExpand() {
+      toast.classList.toggle('expanded');
+      // Once user interacts, push the auto-close back so they have time to read
+      if (autoCloseTimer) clearTimeout(autoCloseTimer);
+      autoCloseTimer = setTimeout(hide, 10000);
+    }
+
+    head.addEventListener('click', function (e) {
+      if (e.target === closeBtn || closeBtn.contains(e.target)) return;
+      toggleExpand();
+    });
+    closeBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      hide();
+    });
+
+    // Show 6 seconds after page load
+    setTimeout(show, 6000);
   })();
 
   // ============ Apple-style bounce scroll for anchor links ============
