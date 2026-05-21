@@ -143,7 +143,7 @@
   .topology-row {
     display: grid;
     grid-template-columns: minmax(0, 540px) minmax(0, 460px);
-    gap: 24px;
+    gap: 14px 24px;
     justify-content: center;
     align-items: stretch;
   }
@@ -331,14 +331,21 @@
     min-width: 0;
   }
   .topology-heading {
+    grid-column: 1 / -1;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 12px;
     font-family: var(--mono);
     font-size: 11px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--ocean);
+    width: 100%;
+  }
+  .topology-heading > span:not(.topo-heading-pulse) {
+    flex: 0 0 auto;
+    padding: 0 4px;
   }
   .topology-heading::before,
   .topology-heading::after {
@@ -1568,11 +1575,7 @@
     <div class="nav-end">
       <button type="button" class="dark-toggle" id="dark-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">☾</button>
       <span class="status-pill" title="Currently accepting new projects">Accepting projects · 24h</span>
-      <div class="lang-toggle" role="radiogroup" aria-label="Language">
-        <button type="button" class="lang-btn active" data-lang="en">EN</button>
-        <button type="button" class="lang-btn" data-lang="de">DE</button>
-      </div>
-      <a class="nav-cta" href="#contact" data-i18n="nav.cta">Get in touch →</a>
+      <a class="nav-cta" href="#contact">Get in touch →</a>
     </div>
   </div>
 </nav>
@@ -1617,11 +1620,11 @@
     </div>
 
     <div class="topology-row">
+    <div class="topology-heading">
+      <span class="topo-heading-pulse"></span>
+      <span>Analytics Intelligence agents</span>
+    </div>
     <div class="topology-col-orbit">
-      <div class="topology-heading">
-        <span class="topo-heading-pulse"></span>
-        <span>Analytics Intelligence agents</span>
-      </div>
       <div class="eye-stage">
       <svg id="eye" viewBox="0 0 720 720" preserveAspectRatio="xMidYMid meet">
         <defs>
@@ -3187,8 +3190,6 @@
 </script>
 
 <div id="tweaks-root"></div>
-
-<script src="i18n.js"></script>
 
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
