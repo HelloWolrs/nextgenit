@@ -920,6 +920,57 @@
     .test-grid { grid-template-columns: 1fr; }
   }
 
+  /* ============ BACK-TO-TOP BUTTON ============ */
+  .back-to-top {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 60;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: rgba(246, 248, 250, 0.92);
+    backdrop-filter: blur(10px);
+    color: var(--abyss);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px -10px rgba(0, 27, 46, 0.35);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s, background 0.18s ease, color 0.18s ease;
+  }
+  .back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .back-to-top:hover {
+    background: var(--abyss);
+    color: var(--bone);
+    transform: translateY(-2px);
+  }
+  .back-to-top svg {
+    width: 18px; height: 18px;
+    transition: transform 0.18s ease;
+  }
+  .back-to-top:hover svg { transform: translateY(-2px); }
+  body.dark .back-to-top {
+    background: rgba(8, 18, 32, 0.88);
+    border-color: rgba(255,255,255,0.12);
+    color: #dbeaf3;
+  }
+  body.dark .back-to-top:hover {
+    background: var(--tide);
+    color: var(--abyss);
+  }
+  @media (max-width: 600px) {
+    .back-to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
+  }
+
   /* ============ STATUS INDICATOR (nav) ============ */
   .status-pill {
     display: inline-flex; align-items: center; gap: 7px;
@@ -1734,6 +1785,14 @@
     <a class="btn btn-ghost" href="#education">Education Academy</a>
   </div>
 </div>
+
+<!-- ============ BACK TO TOP ============ -->
+<a href="#top" class="back-to-top" id="back-to-top" aria-label="Back to top" title="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 19V5"></path>
+    <path d="M5 12l7-7 7 7"></path>
+  </svg>
+</a>
 
 <!-- ============ HERO ============ -->
 <header id="top" class="hero">
@@ -3316,6 +3375,17 @@
     var t = document.getElementById('ticker');
     if (!t) return;
     t.innerHTML += t.innerHTML;
+  })();
+
+  // ============ Back-to-top visibility ============
+  (function () {
+    var btn = document.getElementById('back-to-top');
+    if (!btn) return;
+    function update() {
+      btn.classList.toggle('visible', window.scrollY > 600);
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
   })();
 
   // ============ Apple-style bounce scroll for anchor links ============
