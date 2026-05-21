@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'><defs><radialGradient id='i' cx='50%25' cy='45%25' r='55%25'><stop offset='0%25' stop-color='%237fc3e6'/><stop offset='60%25' stop-color='%231f6fa8'/><stop offset='100%25' stop-color='%23001b2e'/></radialGradient></defs><path d='M 4 22 Q 22 6 40 22 Q 22 38 4 22 Z' fill='white' stroke='%23001b2e' stroke-width='1.8' stroke-linejoin='round'/><circle cx='22' cy='22' r='9' fill='url(%23i)'/><circle cx='22' cy='22' r='4' fill='%23000814'/><circle cx='19.5' cy='19.5' r='2' fill='rgba(255,255,255,0.85)'/></svg>" />
 <title>Next-Gen-IT — Technology solutions for the future</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -517,15 +518,17 @@
 
   .eye-earth {
     position: absolute;
-    top: 8%;
+    top: 10%;
     left: 6%;
-    width: 92px;
-    height: 92px;
-    z-index: 0;
-    pointer-events: none;
-    filter: drop-shadow(0 0 18px rgba(80, 160, 230, 0.55));
+    width: 72px;
+    height: 72px;
+    z-index: 3;
+    pointer-events: auto;
+    cursor: pointer;
+    filter: drop-shadow(0 0 14px rgba(80, 160, 230, 0.5));
     animation: earthDrift 18s ease-in-out infinite;
   }
+  .eye-earth svg { pointer-events: none; }
   .eye-earth svg { width: 100%; height: 100%; display: block; overflow: visible; }
   .eye-earth .earth-spin {
     animation: earthSpin 60s linear infinite;
@@ -2871,7 +2874,7 @@
         <p>For inquiries, partnerships, or strategic dialogue. Real humans reply, usually within a day.</p>
         <ul>
           <li>EMAIL
-<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fe97909891be909b868ad3999b90d3978ad09d9193">[email&#160;protected]</a></li>
+<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6c05020a032c02091418410b0902410518420f0301">[email&#160;protected]</a></li>
           <li><span>Calls</span>by appointment, all timezones</li>
           <li><span>Pilots</span>ACP allowlist via the marketplace</li>
         </ul>
@@ -3676,6 +3679,15 @@
     npClose.addEventListener('click', function (e) { e.stopPropagation(); clearFocus(); });
     eyeStage.addEventListener('click', function (e) {
       if (e.target === eyeStage || e.target.tagName === 'svg' || e.target === eyeSvg) clearFocus();
+    });
+    // Close popup when clicking anywhere outside it
+    document.addEventListener('click', function (e) {
+      if (!popup.classList.contains('visible')) return;
+      if (popup.contains(e.target)) return; // click inside popup
+      // Don't close if click was on an agent/customer/core/earth/text label
+      // (those handlers run first and either toggle or open a different node)
+      if (e.target.closest('.eye-stage')) return;
+      clearFocus();
     });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') clearFocus(); });
   })();
