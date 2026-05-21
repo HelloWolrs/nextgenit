@@ -23,6 +23,10 @@
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
+  html { scroll-padding-top: 80px; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: smooth; }
+  }
   body {
     font-family: var(--sans);
     color: var(--ink);
@@ -164,22 +168,44 @@
     flex-direction: column;
     gap: 18px;
     min-width: 0;
+    min-height: 0;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
   }
   .topology-side .agent-legend,
   .topology-side .event-log {
     margin-top: 0;
   }
-  .topology-side .agent-legend { flex-shrink: 0; }
-  .topology-side .event-stream-panel { flex-grow: 1; min-height: 0; }
-  .topology-side .event-log {
-    height: 100%;
+  .topology-side .agent-legend { flex-shrink: 0; order: 2; }
+  .topology-side .event-stream-panel {
+    flex: 1 1 0;
+    min-height: 0;
+    order: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .topology-side .event-stream-panel .event-log {
+    flex: 1 1 0;
+    height: auto;
     max-height: none;
     display: flex;
     flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    padding: 12px 14px;
   }
   .topology-side .event-log-list {
     flex-grow: 1;
     overflow: hidden;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .topology-side .event-log-list li {
+    padding: 6px 0;
   }
   .event-stream-panel { width: 100%; }
   @media (max-width: 1100px) {
@@ -523,8 +549,8 @@
     margin-top: 18px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    padding: 16px 18px;
+    gap: 2px;
+    padding: 12px 14px;
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 14px;
     background: rgba(8, 18, 32, 0.85);
@@ -683,48 +709,49 @@
   #outer-orbit .customer { cursor: pointer; }
   .legend-row {
     display: grid;
-    grid-template-columns: 14px 1fr;
-    gap: 14px;
-    align-items: start;
-    padding: 5px 0;
+    grid-template-columns: 12px 1fr;
+    gap: 10px;
+    align-items: center;
+    padding: 3px 0;
   }
-  .legend-row > div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .legend-row > div { display: flex; flex-direction: row; align-items: baseline; gap: 8px; min-width: 0; flex-wrap: wrap; }
   .legend-dot {
-    width: 12px; height: 12px; border-radius: 50%;
-    margin-top: 5px;
+    width: 9px; height: 9px; border-radius: 50%;
+    margin-top: 0;
     flex-shrink: 0;
-    box-shadow: 0 0 0 3px rgba(255,255,255,0.05);
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.05);
   }
   .legend-row strong {
     font-family: var(--mono);
-    font-size: 12.5px;
+    font-size: 11px;
     color: #f4f8fb;
     font-weight: 600;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
+    flex-shrink: 0;
   }
   .legend-desc {
-    font-family: var(--sans);
-    font-size: 14px;
-    color: #c4d2e0;
-    line-height: 1.45;
-    overflow-wrap: anywhere;
+    display: none;
   }
   .legend-systems {
     font-family: var(--mono);
-    font-size: 11.5px;
+    font-size: 10px;
     color: #93a8bd;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    margin-top: 3px;
+    margin-top: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
   }
   .legend-row.acp {
     border-bottom: 1px solid rgba(255,255,255,0.08);
-    padding-bottom: 12px;
-    margin-bottom: 6px;
+    padding-bottom: 8px;
+    margin-bottom: 4px;
   }
-  .legend-row.acp strong { color: #f5b04a; font-size: 12.5px; }
-  .legend-row.acp .legend-desc { color: #c4d2e0; }
+  .legend-row.acp strong { color: #f5b04a; font-size: 11px; }
+  .legend-row.acp .legend-desc { color: #c4d2e0; display: block; font-family: var(--sans); font-size: 11.5px; letter-spacing: 0; text-transform: none; flex-basis: 100%; }
 
   /* ============ STATS STRIP ============ */
   .stats-strip {
@@ -1715,7 +1742,7 @@
       <div class="hero-eyebrow">Independent · founded 2004</div>
       <h1>
         We keep an<br />
-        <em><span class="iris-word">I</span></em> on <em>IT.</em><svg class="h1-eye" viewBox="0 0 44 44" aria-hidden="true"><defs><radialGradient id="h1-iris" cx="50%" cy="45%" r="55%"><stop offset="0%" stop-color="#7fc3e6" /><stop offset="60%" stop-color="#1f6fa8" /><stop offset="100%" stop-color="#001b2e" /></radialGradient><radialGradient id="h1-halo" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#f08a3a" stop-opacity="0.55" /><stop offset="100%" stop-color="#f08a3a" stop-opacity="0" /></radialGradient></defs><circle cx="22" cy="22" r="20" fill="url(#h1-halo)" /><path d="M 4 22 Q 22 6 40 22 Q 22 38 4 22 Z" fill="white" stroke="#001b2e" stroke-width="1.6" stroke-linejoin="round" /><circle cx="22" cy="22" r="9" fill="url(#h1-iris)" /><circle cx="22" cy="22" r="4" fill="#000814" /><circle cx="19.5" cy="19.5" r="2" fill="rgba(255,255,255,0.85)" /></svg>
+        <em><span class="iris-word">I</span></em> on <em>IT.</em><svg class="h1-eye" viewBox="0 0 44 44" aria-hidden="true"><defs><radialGradient id="h1-iris" cx="50%" cy="45%" r="55%"><stop offset="0%" stop-color="#7fc3e6" /><stop offset="60%" stop-color="#1f6fa8" /><stop offset="100%" stop-color="#001b2e" /></radialGradient></defs><path d="M 4 22 Q 22 6 40 22 Q 22 38 4 22 Z" fill="white" stroke="#001b2e" stroke-width="1.6" stroke-linejoin="round" /><circle cx="22" cy="22" r="9" fill="url(#h1-iris)" /><circle cx="22" cy="22" r="4" fill="#000814" /><circle cx="19.5" cy="19.5" r="2" fill="rgba(255,255,255,0.85)" /></svg>
         <span class="hero-tagline" style="color: rgb(39, 99, 197)">Technology solutions for the future.</span>
       </h1>
       <p class="hero-lead" data-i18n="hero.lead">More than two decades building, operating, and now steering the systems that power modern operations. From the first managed network closet to the agent-to-agent economy of 2026 — Next-Gen-IT has been there the whole way, quietly. Four agents orbit; the eye watches.</p>
@@ -2062,7 +2089,7 @@
       <aside class="event-stream-panel">
         <div class="event-log">
           <div class="event-log-head">
-            <span>Event stream · last 5</span>
+            <span>Event stream</span>
             <span id="event-rate">0 events/min</span>
           </div>
           <ul class="event-log-list" id="event-log-list"></ul>
@@ -3009,7 +3036,7 @@
         '<span class="event-log-msg">' + msg + '</span>' +
         '<span class="event-log-latency">' + latency + 'ms</span>';
       listEl.insertBefore(li, listEl.firstChild);
-      while (listEl.children.length > 5) listEl.removeChild(listEl.lastChild);
+      while (listEl.children.length > 12) listEl.removeChild(listEl.lastChild);
 
       updateBadges(latency);
     });
@@ -3289,6 +3316,74 @@
     var t = document.getElementById('ticker');
     if (!t) return;
     t.innerHTML += t.innerHTML;
+  })();
+
+  // ============ Apple-style bounce scroll for anchor links ============
+  (function () {
+    var HEADER_OFFSET = 80;
+    var DURATION = 1000; // ms — long enough to feel deliberate
+
+    // Apple-style "back" easing: fast deceleration with a tiny overshoot then settle.
+    // Custom curve: bezier-like easeOutBack approximated.
+    function easeOutBack(t) {
+      var c1 = 1.32;
+      var c3 = c1 + 1;
+      return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+    }
+
+    function animateScroll(targetY) {
+      // Cancel any running animation
+      if (window.__scrollAnim) cancelAnimationFrame(window.__scrollAnim);
+      var startY = window.pageYOffset || document.documentElement.scrollTop;
+      var distance = targetY - startY;
+      if (Math.abs(distance) < 2) return;
+      var startTime = null;
+
+      function step(ts) {
+        if (startTime === null) startTime = ts;
+        var elapsed = ts - startTime;
+        var t = Math.min(1, elapsed / DURATION);
+        var eased = easeOutBack(t);
+        window.scrollTo(0, startY + distance * eased);
+        if (t < 1) {
+          window.__scrollAnim = requestAnimationFrame(step);
+        } else {
+          window.__scrollAnim = null;
+          // Final settle to exact target (kill rounding drift)
+          window.scrollTo(0, targetY);
+        }
+      }
+      window.__scrollAnim = requestAnimationFrame(step);
+    }
+
+    // Cancel animation if user starts scrolling manually
+    ['wheel', 'touchstart', 'keydown'].forEach(function (ev) {
+      window.addEventListener(ev, function () {
+        if (window.__scrollAnim) {
+          cancelAnimationFrame(window.__scrollAnim);
+          window.__scrollAnim = null;
+        }
+      }, { passive: true });
+    });
+
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a) return;
+      var href = a.getAttribute('href');
+      if (!href || href === '#' || href.length < 2) return;
+      var id = href.slice(1);
+      var target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      var rect = target.getBoundingClientRect();
+      var targetY = window.pageYOffset + rect.top - HEADER_OFFSET;
+      // Clamp to valid scroll range
+      var maxY = document.documentElement.scrollHeight - window.innerHeight;
+      targetY = Math.max(0, Math.min(maxY, targetY));
+      animateScroll(targetY);
+      // Update URL hash without re-triggering the default jump
+      if (history.replaceState) history.replaceState(null, '', href);
+    });
   })();
 
   // ============ Scroll reveal milestones ============
